@@ -20,4 +20,4 @@ const bookSchema = mongoose.Schema(
     }
 )
 
-module.exports = {book : mongoose.model('Cat',bookSchema)}
+module.exports = {book : mongoose.model('BookDatabase',bookSchema)}
