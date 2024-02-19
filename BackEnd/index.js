@@ -56,7 +56,7 @@ app.get("/books/:id", async (req, res) => {
       return res.status(404).json({ message: "Book not found" });
     }
 
-    return res.status(200).json(foundBook);
+    // return res.status(200).json(foundBook);
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -79,6 +79,31 @@ app.get("/books/:id", async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+//update the id
+app.put("/books/:id",async (req,res) => {
+  try {
+    if (!req.body.title || !req.body.author || !req.body.publish) {
+      return res.status(400).send({
+        message: "send all the fields",
+      });
+    }
+
+    const id = req.params.id;
+    const updatedBook = await book.findByIdAndUpdate(id,req.body);
+
+    if(!updatedBook){
+      return res.status(400).json({message : "add the all required fields"});
+    }
+    return res.status(200).send({message : "book updated successfully"})
+
+  } catch (error) {
+    return res.status(400).send({
+      message: "send all the fields",
+    });
+  }
+})
+
 // Connecting to MongoDB and starting the server
 mongoose
   .connect(MONGODB_URL)
