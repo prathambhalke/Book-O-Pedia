@@ -1,11 +1,14 @@
 const express = require("express");
-const { PORT, MONGODB_URL } = require("./config");
+require("dotenv").config();
+// const { PORT, MONGODB_URL } = require("./config");
 const mongoose = require("mongoose");
 const bookRoutes = require('./Routes/bookRoutes')
 const app = express();
+var cors = require('cors')
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+app.use(cors())
 
 // GET route
 app.get("/", (req, res) => {
@@ -16,11 +19,11 @@ app.get("/", (req, res) => {
 app.use("/books",bookRoutes)
 // Connecting to MongoDB and starting the server
 mongoose
-  .connect(MONGODB_URL)
+  .connect(process.env.MONGODB_URL)
   .then(() => {
     console.log("So, the server is started");
-    app.listen(PORT, () => {
-      console.log(`App server is started on http://localhost:${PORT}`);
+    app.listen(process.env.PORT, () => {
+      console.log(`App server is started on http://localhost:${process.env.PORT}`);
     });
   })
   .catch((err) => {
