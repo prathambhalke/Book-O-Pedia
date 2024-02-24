@@ -12,6 +12,7 @@ function App() {
         <Route path='/books/edit/:id' element={<EditBook />}/>
         <Route path='/books/delete/:id' element={<DeleteBook />}/>
       </Routes>
+      
     </div>
   )
 }

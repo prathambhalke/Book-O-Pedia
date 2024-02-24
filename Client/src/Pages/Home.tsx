@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Table from "../Components/Table";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -17,7 +18,7 @@ const Home = () => {
   }, []);
 
   console.log(data)
-  return <div>Home</div>;
+  return <div><Table /></div>;
 };
 
 export default Home;
