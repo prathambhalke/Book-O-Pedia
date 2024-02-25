@@ -13,7 +13,6 @@ app.use(cors())
 // GET route
 app.get("/", (req, res) => {
   res.status(204);
-  console.log("you are my b Oy its valentine");
 });
 
 app.use("/books",bookRoutes)
@@ -21,7 +20,6 @@ app.use("/books",bookRoutes)
 mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => {
-    console.log("So, the server is started");
     app.listen(process.env.PORT, () => {
       console.log(`App server is started on http://localhost:${process.env.PORT}`);
     });
