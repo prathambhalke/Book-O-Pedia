@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import Table from "../Components/Table";
 import { BiSolidBookAdd } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { Loader } from "../..";
 
 const Home = () => {
   const [data, setData] = useState([]);
-  const [bookCount,setbookCount] = useState(0)
+  const [bookCount, setbookCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,7 +16,7 @@ const Home = () => {
       .get("https://book-o-pedia.vercel.app/books")
       .then((res) => {
         setData(res.data.data);
-        setbookCount(res.data.count)
+        setbookCount(res.data.count);
         setLoading(false);
       })
       .catch((err: any) => {
@@ -24,15 +25,24 @@ const Home = () => {
       });
   }, []);
   return (
-    <div className="flex flex-col p-12">
-      <div className="flex gap-10">
-      <h1 className="text-2xl font-bold">Books Store</h1> <Link to={"/books/create"}><BiSolidBookAdd className="text-green-600 text-xl"/></Link> 
-
-      <span>{bookCount} Books</span>
+    <div className="w-[85vw] flex flex-col relative">
+      <div className="flex justify-between items-center gap-4 py-6 border-b border-gray-200">
+        <h1 className="text-2xl font-bold">Books Store</h1>
+        <div className="flex items-center gap-4 relative">
+          <Link
+            to="/books/create"
+            className="flex items-center text-green-600 relative hover:scale-110 transition-all duration-100'"
+          >
+            <BiSolidBookAdd className="text-3xl relative" />
+            <span className="absolute top-1 right-1 transform translate-x-1/2 -translate-y-1/2 bg-white rounded-full text-[12px] font-medium w-4 h-4 flex items-center justify-center border border-gray-200">
+              {bookCount}
+            </span>
+          </Link>
+        </div>
       </div>
-      <Table Tdata = {data} loader ={loading}/>
+      {loading ? <Loader /> : <Table Tdata={data} />}
     </div>
-  );
+  );;
 };
 
 export default Home;

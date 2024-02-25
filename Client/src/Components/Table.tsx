@@ -8,7 +8,6 @@ import {
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { BsInfoSquareFill } from "react-icons/bs";
-import Loader from "./Loader";
 import { Link } from "react-router-dom";
 
 type bookDataArrType = {
@@ -20,23 +19,6 @@ type bookDataArrType = {
     publish: string;
   }[];
 };
-
-// const bookData: bookDataArrType[] = [
-//   {
-//     count : 9,
-//   data :[ {
-//     _id: "65cda450fdd8de233043a4a4",
-//     title: "Love JS",
-//     author: "aman simpson",
-//     publish: "Pratham Publications",
-//   },
-//   {
-//     _id: "65cda50c74324cb95220e1d4",
-//     title: "sharu",
-//     author: "aman simpson",
-//     publish: "Pratham Publications",
-//   }]}
-// ];
 
 const column: ColumnDef<bookDataArrType, any>[] = [
   {
@@ -61,7 +43,6 @@ const column: ColumnDef<bookDataArrType, any>[] = [
   },
   {
     header: "Options",
-    // accessorKey: "publish",
     footer: "Options",
     cell: (item) => {
       const uId = item.cell.row._valuesCache._id;
@@ -71,10 +52,10 @@ const column: ColumnDef<bookDataArrType, any>[] = [
             <BsInfoSquareFill className="text-blue-600" />
           </Link>
           <Link to={`/books/edit/${uId}`}>
-          <FaEdit className="text-yellow-400" />
+            <FaEdit className="text-yellow-400" />
           </Link>
           <Link to={`/books/delete/${uId}`}>
-          <MdDelete className="text-red-600" />
+            <MdDelete className="text-red-600" />
           </Link>
         </div>
       );
@@ -82,24 +63,22 @@ const column: ColumnDef<bookDataArrType, any>[] = [
   },
 ];
 
-const Table = ({ Tdata, loader }: any) => {
+const Table = ({ Tdata }: any) => {
   const table = useReactTable<bookDataArrType>({
     data: Tdata,
     columns: column,
     getCoreRowModel: getCoreRowModel(),
   });
   return (
-    <div>
-      {loader ? (
-        <Loader />
-      ) : (
-        <table>
+    <div className="overflow-x-auto">
+      <table className="min-w-full">
+        <thead className="sticky top-0 bg-white z-10">
           {table.getHeaderGroups().map((headergroup) => (
             <tr key={headergroup.id}>
               {headergroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="border border-red-500 rounded-3xl"
+                  className="px-6 py-3 bg-purple-700 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider"
                 >
                   {flexRender(
                     header.column.columnDef.header,
@@ -109,25 +88,25 @@ const Table = ({ Tdata, loader }: any) => {
               ))}
             </tr>
           ))}
+        </thead>
 
-          <tbody>
-            {table.getRowModel().rows.map((row) => {
-              return (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="border border-red-500 px-16">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
+        <tbody className="bg-white divide-y divide-purple-200">
+          {table.getRowModel().rows.map((row) => {
+            return (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    key={cell.id}
+                    className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900"
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };

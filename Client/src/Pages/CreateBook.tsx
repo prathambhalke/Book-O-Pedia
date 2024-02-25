@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CreateBook = () => {
   const [title, setTitle] = useState("");
@@ -13,7 +14,6 @@ const CreateBook = () => {
   const data = { title, author, publish };
 
   const handleSubmit = (e : any) => {
-
     e.preventDefault();
     axios
       .post("https://book-o-pedia.vercel.app/books", data)
