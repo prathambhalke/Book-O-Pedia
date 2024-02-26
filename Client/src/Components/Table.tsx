@@ -24,7 +24,7 @@ type bookDataArrType = {
 };
 
 
-const Table = ({ Tdata,setData }: any) => {
+const Table = ({ Tdata}: any) => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [showInfoForm, setShowInfoForm] = useState(false);

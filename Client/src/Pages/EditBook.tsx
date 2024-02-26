@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { toast } from "react-toastify";
 
-const EditBook = ({ setShowEditForm, editId, setData }: any) => {
+const EditBook = ({ setShowEditForm, editId}: any) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publish, setPublish] = useState("");
