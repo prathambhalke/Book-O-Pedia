@@ -1,25 +1,36 @@
 import axios from "axios";
 import { useState } from "react";
+import { IoArrowBackCircle } from "react-icons/io5";
 import { toast } from "react-toastify";
 
-const CreateBook = ({setShowCreateForm}) => {
+const CreateBook = ({ setShowCreateForm, setData }: any) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publish, setPublish] = useState("");
 
-  const data = { title, author, publish };
-
-  const handleSubmit = (e : any) => {
-    if(title === "" || author === "" || title === "") toast("fill the all fields")
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    setShowCreateForm(false)
+    const data = { title, author, publish };
     axios
       .post("https://book-o-pedia.vercel.app/books", data)
-      .then().catch((err) => console.log(err));
+      .then((response) => {
+        setData((prevBooks: any) => [...prevBooks, response.data]);
+        setShowCreateForm(false);
+        toast.success("Book created successfully!");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to create book!");
+      });
   };
 
+  const goBack = () => setShowCreateForm(false);
+
   return (
-    <div className="max-w-md mx-auto p-8 bg-white shadow-md rounded-md overflow-hidden absolute w-screen z-10 top-24 left-[30%]">
+    <div className="max-w-md mx-auto p-8 bg-white shadow-md rounded-md overflow-hidden absolute w-screen z-10 border border-purple-400">
+      <button onClick={goBack}>
+        <IoArrowBackCircle className="text-red-400 text-4xl text-center mb-4 cursor-pointer hover:scale-125 transition-all duration-100" />
+      </button>
       <p className="text-2xl">Create New Book</p>
       <form onSubmit={handleSubmit} className="px-6 py-4">
         <div className="mb-4">
@@ -73,10 +84,11 @@ const CreateBook = ({setShowCreateForm}) => {
             required
           />
         </div>
+        
         <div className="flex justify-center items-center">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:scale-110 transition-all duration-100"
           >
             Create
           </button>

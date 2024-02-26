@@ -1,18 +1,23 @@
-import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import { Home, CreateBook, DeleteBook, EditBook, ShowBook } from "../index"
+import { Home } from '..';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
- 
+
   return (
     <div className='h-screen flex justify-center'>
-      <Routes>
-        <Route path='/' element={<Home />}/>
-        <Route path='/books/details/:id' element={<ShowBook />}/>
-        <Route path='/books/edit/:id' element={<EditBook />}/>
-        <Route path='/books/delete/:id' element={<DeleteBook />}/>
-      </Routes>
-      <ToastContainer />
+      <ToastContainer
+        position="top-left"
+        autoClose={5000}
+        limit={10}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="dark"
+      />
+      <Home />
     </div>
   )
 }

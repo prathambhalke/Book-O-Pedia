@@ -1,35 +1,48 @@
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { IoArrowBackCircle } from "react-icons/io5";
+import { toast } from "react-toastify";
 
-const DeleteBook = () => {
-  const {id} = useParams();
-  const navigate = useNavigate();
+const DeleteBook = ({ setShowDeleteForm, editId }: any) => {
 
-  const deleteBook = (e : any) => {
+  const deleteBook = (e: any) => {
     e.preventDefault();
     axios
-      .delete(`https://book-o-pedia.vercel.app/books/${id}`)
+      .delete(`https://book-o-pedia.vercel.app/books/${editId}`)
       .then(() => {
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
+        toast.warn("Book Deleted successfully!");
+        setTimeout(() => {
+          location.reload()
+        }, 1000)
+      }
+      )
+      .catch((err) => {
+        toast.warn("Failed to Deleted Book!");
+
+        console.log(err)
+      });
+    setShowDeleteForm(false)
   };
+  const goBack = () => setShowDeleteForm(false)
 
 
-     return (
-    <div className="max-w-md mx-auto bg-white shadow-md rounded-md overflow-hidden p-4">
-          <p className="text-2xl">Delete Book</p>
-          
-          <p className="text-lg font-bold">Book : <span>{id}</span></p> 
-      <div className="px-6 py-4">
-        <p className="text-gray-700 text-lg mb-4">Are you sure you want to delete the Book?</p>
-        <div className="flex justify-end">
-          <button onClick={deleteBook} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2">Delete</button>
-          <button onClick={() => navigate("/")} className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Cancel</button>
-        </div>
+  return (
+    <div className="max-w-md mx-auto p-8 bg-white shadow-md rounded-md overflow-hidden absolute w-screen z-10 border border-purple-400">
+      <button onClick={goBack} className="absolute top-4 left-4">
+        <IoArrowBackCircle className="text-red-400 text-4xl cursor-pointer hover:scale-125 transition-all duration-100" />
+      </button>
+      <div className="text-center mb-6">
+        <p className="text-3xl font-bold text-red-600">Delete Book</p>
+        <p className="text-lg">Book ID: <span className="font-bold">{editId}</span></p>
+      </div>
+      <p className="text-gray-700 text-lg mb-4 text-center">Are you sure you want to delete this book?</p>
+      <div className="flex justify-center">
+        <button onClick={deleteBook} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded mr-2 transition-colors duration-300 hover:scale-110 transition-all duration-100">
+          Delete
+        </button>
       </div>
     </div>
   );
+
 }
 
 export default DeleteBook

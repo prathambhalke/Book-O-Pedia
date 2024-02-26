@@ -1,45 +1,51 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FiArrowLeft } from "react-icons/fi";
-import { useNavigate, useParams } from "react-router-dom";
+import { IoArrowBackCircle } from "react-icons/io5";
+import { toast } from "react-toastify";
 
-const EditBook = () => {
+const EditBook = ({ setShowEditForm, editId, setData }: any) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publish, setPublish] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { id } = useParams();
-  const navigate = useNavigate();
   const data = { title, author, publish };
 
-  const handleEdit = (e : any) => {
+  const handleEdit = (e: any) => {
     e.preventDefault();
     axios
-      .put(`https://book-o-pedia.vercel.app/books/${id}`,data)
+      .put(`https://book-o-pedia.vercel.app/books/${editId}`, data)
       .then(() => {
-        navigate("/");
-        setLoading(false);
+        toast.success("Book Updated Successfully!");
+        setTimeout(() => {
+          location.reload()
+        }, 2000)
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.error("Failed to Update book!");
+        console.log(err)
+      }
+      );
+    setShowEditForm(false)
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     axios
-    .get(`https://book-o-pedia.vercel.app/books/${id}`)
-    .then((res) => {
-      console.log(res.data)
-    setAuthor(res.data.author)
-    setPublish(res.data.publish)
-    setTitle(res.data.title)
+      .get(`https://book-o-pedia.vercel.app/books/${editId}`)
+      .then((res) => {
+        console.log(res.data)
+        setAuthor(res.data.author)
+        setPublish(res.data.publish)
+        setTitle(res.data.title)
 
-    })
-    .catch((err) => console.log(err));
-  },[])
+      })
+      .catch((err) => console.log(err));
+  }, [])
+  const goBack = () => setShowEditForm(false)
 
   return (
-    <div className="max-w-md mx-auto p-8 bg-white shadow-md rounded-md overflow-hidden">
+    <div className="max-w-md mx-auto p-8 bg-white shadow-md rounded-md overflow-hidden absolute w-screen z-10 border border-purple-400">
+      <button onClick={goBack}><IoArrowBackCircle className="text-red-400 text-4xl text-center mb-4 cursor-pointer hover:scale-125 transition-all duration-100" /></button>
       <p className="text-2xl">Edit Book</p>
-      <form className="px-6 py-4">
+      <form onSubmit={handleEdit} className="px-6 py-4">
         <div className="mb-4">
           <label
             htmlFor="title"
@@ -91,19 +97,12 @@ const EditBook = () => {
             required
           />
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-center items-center">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={handleEdit}
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:scale-110 transition-all duration-100"
           >
             Edit
-          </button>
-          <button
-            onClick={() => navigate("/")}
-            className="flex items-center bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            <FiArrowLeft className="mr-2" />
-            Back
           </button>
         </div>
       </form>
