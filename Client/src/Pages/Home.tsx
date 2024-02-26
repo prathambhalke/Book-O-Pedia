@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Table from "../Components/Table";
-import { BiSolidBookAdd } from "react-icons/bi";
+import { BiSolidBookAdd } from "../Constants";
 import { CreateBook, Loader } from "../..";
 
 const Home = () => {
@@ -48,7 +48,7 @@ const Home = () => {
           </button>
         </div>
       </div>
-      {loading ? <Loader /> : <Table Tdata={data} setData={setData}/>}
+      {loading ? <Loader /> : <Table Tdata={data} />}
       {showCreateForm && (
         <div className="fixed m-auto w-[85vw] h-full z-10 flex justify-center items-center backdrop-blur-[2px]">
           <CreateBook setShowCreateForm={setShowCreateForm} setData={setData} />

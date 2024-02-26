@@ -1,8 +1,8 @@
-import { FaAngleDoubleLeft, FaAngleLeft, FaAngleRight, FaAngleDoubleRight } from 'react-icons/fa';
+import { FaAngleDoubleLeft, FaAngleLeft, FaAngleRight, FaAngleDoubleRight } from '../Constants';
 
 const Pagination  = ({table} : any) => {
     return (
-        <div className="flex items-center justify-center gap-2 text-purple-700 text-lg">
+        <div className="flex items-center justify-center w-full gap-2 text-black text-md sticky bottom-0 z-10 bg-slate-400 backdrop-blur-sm">
             <button
                 className="border rounded p-1 disabled:opacity-50 disabled:pointer-events-none hover:bg-purple-400 hover:text-white transition-colors"
                 onClick={() => table.setPageIndex(0)}
@@ -40,14 +40,14 @@ const Pagination  = ({table} : any) => {
             </span>
             <select
                 value={table.getState().pagination.pageSize}
-                onChange={(e) => {
+                onChange ={(e) => {
                     table.setPageSize(Number(e.target.value));
                 }}
-                className="border rounded p-1 text-purple-700 hover:bg-purple-400 hover:text-white transition-colors"
+                className="border rounded my-1 p-1 text-black transition-colors"
             >
                 {[10, 20, 30, 40, 50].map((pageSize) => (
                     <option key={pageSize} value={pageSize}>
-                        Show {pageSize}
+                        {pageSize}
                     </option>
                 ))}
             </select>

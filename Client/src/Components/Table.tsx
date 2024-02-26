@@ -1,47 +1,29 @@
-import {
-  ColumnDef,
-  useReactTable,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-} from "@tanstack/react-table";
+import { ColumnDef, useReactTable, flexRender, getCoreRowModel, getPaginationRowModel } from "@tanstack/react-table";
 import Pagination from "./Pagination";
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import { BsInfoSquareFill } from "react-icons/bs";
-import { GoCrossReference } from "react-icons/go";
+
 import { useState } from "react";
 import { DeleteBook, EditBook, ShowBook } from "../..";
+import { bookDataArrType, columnsData } from "../Types";
+import { BsInfoSquareFill, FaEdit, GoCrossReference, MdDelete } from "../Constants";
 
-type bookDataArrType = {
-  count: number;
-  data: {
-    _id: string;
-    title: string;
-    author: string;
-    publish: string;
-  }[];
-};
-
-
-const Table = ({ Tdata}: any) => {
+const Table = ({ Tdata }: { Tdata: bookDataArrType[]}) => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [showInfoForm, setShowInfoForm] = useState(false);
-
-  const [editId, setEditId] = useState<any>("");
+  const [editId, setEditId] = useState<string>("");
 
   const handleClicks = (id: string, action: string) => {
     setEditId(id);
-    if(action === "Edit"){
+    if (action === "Edit") {
       setShowEditForm(true);
-    }else if(action === "Delete"){
-      setShowDeleteForm(true)
-    }else if(action === "Info") {
-      setShowInfoForm(true)
+    } else if (action === "Delete") {
+      setShowDeleteForm(true);
+    } else if (action === "Info") {
+      setShowInfoForm(true);
     }
   };
-  const column: ColumnDef<bookDataArrType, any>[] = [
+
+  const column: ColumnDef<columnsData>[] = [
     {
       header: "Id",
       accessorKey: "_id",
@@ -73,14 +55,13 @@ const Table = ({ Tdata}: any) => {
       header: "Options",
       footer: "Options",
       cell: (item) => {
-        let uId : any = item.cell.row._valuesCache._id;
+        const uId: any = item.cell.row._valuesCache._id;
         return (
           <div className="flex gap-5 text-2xl">
-            <button onClick={()=> handleClicks (uId , "Info")}>
+            <button onClick={() => handleClicks(uId, "Info")}>
               <BsInfoSquareFill className="text-blue-600 hover:scale-110 transition-all duration-100" />
             </button>
-            <button onClick={() => handleClicks(uId, "Edit")}
-            >
+            <button onClick={() => handleClicks(uId, "Edit")}>
               <FaEdit className="text-yellow-400 hover:scale-110 transition-all duration-100" />
             </button>
             <button onClick={() => handleClicks(uId, "Delete")}>
@@ -92,15 +73,15 @@ const Table = ({ Tdata}: any) => {
     },
   ];
 
-  const table = useReactTable<bookDataArrType>({
+  const table = useReactTable<columnsData>({
     data: Tdata.reverse(),
     columns: column,
-    // onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+
   return (
-    <div className="overflow-x-auto w-[85vw] flex flex-col relative">
+    <div className="overflow-x-auto w-[85vw] h-[80vh] flex flex-col relative">
       <table className="min-w-full">
         <thead className="sticky top-0 bg-white z-10">
           {table.getHeaderGroups().map((headergroup) => (
@@ -138,7 +119,6 @@ const Table = ({ Tdata}: any) => {
         </tbody>
       </table>
       <Pagination table={table} />
-
       {showEditForm && (
         <div className="fixed m-auto w-[85vw] h-full z-10 flex justify-center items-center backdrop-blur-[2px]">
           <EditBook setShowEditForm={setShowEditForm} editId={editId} />
@@ -151,7 +131,7 @@ const Table = ({ Tdata}: any) => {
       )}
       {showInfoForm && (
         <div className="fixed m-auto w-[85vw] h-full z-10 flex justify-center items-center backdrop-blur-[2px]">
-          <ShowBook setShowInfoForm={setShowInfoForm} editId={editId}/>
+          <ShowBook setShowInfoForm={setShowInfoForm} editId={editId} />
         </div>
       )}
     </div>

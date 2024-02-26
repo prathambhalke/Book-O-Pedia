@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IoArrowBackCircle } from "react-icons/io5";
+import { IoArrowBackCircle } from "../Constants";
 import { toast } from "react-toastify";
 
 const DeleteBook = ({ setShowDeleteForm, editId }: any) => {

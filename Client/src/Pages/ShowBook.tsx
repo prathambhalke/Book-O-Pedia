@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { IoArrowBackCircle } from "react-icons/io5";
+import { IoArrowBackCircle } from "../Constants";
 
 const ShowBook = ({ setShowInfoForm, editId }: any) => {
   const [book, setBook] = useState<any>({});

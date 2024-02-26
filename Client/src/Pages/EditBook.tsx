@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { IoArrowBackCircle } from "react-icons/io5";
+import { IoArrowBackCircle } from "../Constants";
 import { toast } from "react-toastify";
 
 const EditBook = ({ setShowEditForm, editId}: any) => {

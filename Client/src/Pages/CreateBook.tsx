@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
-import { IoArrowBackCircle } from "react-icons/io5";
+import { IoArrowBackCircle } from "../Constants";
 import { toast } from "react-toastify";
 
-const CreateBook = ({ setShowCreateForm, setData }: any) => {
+const CreateBook : React.FC<{ setShowCreateForm: any; setData: any }>  = ({ setShowCreateForm, setData }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publish, setPublish] = useState("");
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit : React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const data = { title, author, publish };
     axios
