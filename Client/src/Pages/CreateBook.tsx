@@ -1,31 +1,24 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { FiArrowLeft } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
-const CreateBook = () => {
+const CreateBook = ({setShowCreateForm}) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publish, setPublish] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const data = { title, author, publish };
 
   const handleSubmit = (e : any) => {
     e.preventDefault();
+    setShowCreateForm(false)
     axios
       .post("https://book-o-pedia.vercel.app/books", data)
-      .then(() => {
-        navigate("/");
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
+      .then().catch((err) => console.log(err));
   };
 
   return (
-    <div className="max-w-md mx-auto p-8 bg-white shadow-md rounded-md overflow-hidden">
+    <div className="max-w-md mx-auto p-8 bg-white shadow-md rounded-md overflow-hidden absolute w-screen z-10 top-24 left-[30%]">
       <p className="text-2xl">Create New Book</p>
       <form onSubmit={handleSubmit} className="px-6 py-4">
         <div className="mb-4">
@@ -79,19 +72,12 @@ const CreateBook = () => {
             required
           />
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-center items-center">
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            Submit
-          </button>
-          <button
-            onClick={() => navigate("/")}
-            className="flex items-center bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            <FiArrowLeft className="mr-2" />
-            Back
+            Create
           </button>
         </div>
       </form>
