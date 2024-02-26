@@ -10,6 +10,7 @@ const CreateBook = ({setShowCreateForm}) => {
   const data = { title, author, publish };
 
   const handleSubmit = (e : any) => {
+    if(title === "" || author === "" || title === "") toast("fill the all fields")
     e.preventDefault();
     setShowCreateForm(false)
     axios
