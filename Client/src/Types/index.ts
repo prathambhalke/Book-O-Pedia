@@ -10,6 +10,7 @@ export type bookData = {
     header: string;
     accessorKey: string;
     footer: string;
+    createdAt : string;
     cell?: (item: any) => JSX.Element;
   };  
   

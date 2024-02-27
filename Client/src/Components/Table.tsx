@@ -5,6 +5,7 @@ import { useState } from "react";
 import { DeleteBook, EditBook, ShowBook } from "../..";
 import { bookDataArrType, columnsData } from "../Types";
 import { BsInfoSquareFill, FaEdit, GoCrossReference, MdDelete } from "../Constants";
+import moment from "moment";
 
 const Table = ({ Tdata }: { Tdata: bookDataArrType[]}) => {
   const [showEditForm, setShowEditForm] = useState(false);
@@ -54,6 +55,23 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[]}) => {
         return <GoCrossReference className="text-blue-400 text-xl text-center" />
       }
     },
+    {
+      header: "Created At",
+      accessorKey: "createdAt",
+      footer: "Created At",
+      cell: (item) => {
+        const createdAt = item.row.original.createdAt;
+        const formattedDate = moment(createdAt).format('YYYY-MM-DD');
+        const formattedTime = moment(createdAt).format('HH:mm');
+    
+        return (
+          <span>
+            <strong>Date:</strong> {formattedDate} <br />
+            <strong>Time:</strong> {formattedTime}
+          </span>
+        );
+      }
+    },    
     {
       header: "Options",
       footer: "Options",
