@@ -25,9 +25,12 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[]}) => {
 
   const column: ColumnDef<columnsData>[] = [
     {
-      header: "Id",
-      accessorKey: "_id",
-      footer: "Id"
+      header: "No.",
+      cell: (item) => {
+        const rowIndex = item.cell.row.index;
+        const count = rowIndex + 1;
+        return <span>{count}</span>;
+      }
     },
     {
       header: "Title",
@@ -55,7 +58,7 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[]}) => {
       header: "Options",
       footer: "Options",
       cell: (item) => {
-        const uId: any = item.cell.row._valuesCache._id;
+        const uId: string = item.row.original._id;
         return (
           <div className="flex gap-5 text-2xl">
             <button onClick={() => handleClicks(uId, "Info")}>
