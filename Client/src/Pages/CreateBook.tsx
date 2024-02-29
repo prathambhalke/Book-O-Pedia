@@ -30,7 +30,7 @@ const CreateBook: React.FC<{ setShowCreateForm: any; setData: any }> = ({
       createdAt: formattedDate,
     };
     axios
-      .post("http://localhost:2000/books", data)
+      .post("https://book-o-pedia.vercel.app/books", data)
       .then((response) => {
         setData((prevBooks: any) => [...prevBooks, response.data]);
         setShowCreateForm(false);

@@ -7,7 +7,9 @@ const EditBook = ({ setShowEditForm, editId}: any) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publish, setPublish] = useState("");
-  const data = { title, author, publish };
+  const [referenceLink, setReferenceLink] = useState("");
+
+  const data = { title, author, publish,referenceLink };
 
   const handleEdit = (e: any) => {
     e.preventDefault();
@@ -35,7 +37,7 @@ const EditBook = ({ setShowEditForm, editId}: any) => {
         setAuthor(res.data.author)
         setPublish(res.data.publish)
         setTitle(res.data.title)
-
+        setReferenceLink(res.data.referenceLink)
       })
       .catch((err) => console.log(err));
   }, [])
@@ -94,6 +96,23 @@ const EditBook = ({ setShowEditForm, editId}: any) => {
             placeholder="Enter publisher"
             value={publish}
             onChange={(e) => setPublish(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="refLink"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Reference Link:
+          </label>
+          <input
+            type="text"
+            id="refLink"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Enter reference Link"
+            value={referenceLink}
+            onChange={(e) => setReferenceLink(e.target.value)}
             required
           />
         </div>
