@@ -1,13 +1,26 @@
-import { ColumnDef, useReactTable, flexRender, getCoreRowModel, getPaginationRowModel } from "@tanstack/react-table";
+import {
+  ColumnDef,
+  useReactTable,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+} from "@tanstack/react-table";
 import Pagination from "./Pagination";
 
 import { useState } from "react";
 import { DeleteBook, EditBook, ShowBook } from "../..";
 import { bookDataArrType, columnsData } from "../Types";
-import { BsInfoSquareFill, FaEdit, GoCrossReference, MdDelete } from "../Constants";
+import {
+  BsInfoSquareFill,
+  CgUnavailable,
+  FaEdit,
+  GoCrossReference,
+  MdDelete,
+} from "../Constants";
 import moment from "moment";
+import { toast } from "react-toastify";
 
-const Table = ({ Tdata }: { Tdata: bookDataArrType[]}) => {
+const Table = ({ Tdata }: { Tdata: bookDataArrType[] }) => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [showInfoForm, setShowInfoForm] = useState(false);
@@ -31,7 +44,7 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[]}) => {
         const rowIndex = item.cell.row.index;
         const count = rowIndex + 1;
         return <span>{count}</span>;
-      }
+      },
     },
     {
       header: "Title",
@@ -51,9 +64,28 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[]}) => {
     {
       header: "Reference Link",
       footer: "Reference Link",
-      cell: () => {
-        return <GoCrossReference className="text-blue-400 text-xl text-center" />
-      }
+      cell: (item) => {
+        const referenceLink = item.row.original.referenceLink;
+
+        const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+        // if (!urlPattern.test(referenceLink)) {
+        //   toast.error("Please enter a valid URL for the reference link!");
+        //   return;
+        // }
+        return (
+          <div>
+            {
+              !urlPattern.test(referenceLink) ? (
+                <CgUnavailable className="text-red-600 text-2xl cursor-not-allowed" title={"this book has not available the reference Link!"}/>
+              ) : (
+                <a href={referenceLink} target="_blank" rel="noopener noreferrer" title={referenceLink}>
+                <GoCrossReference className="text-blue-400 text-xl text-center" />
+              </a>
+              )
+            }
+          </div>
+        );
+      },
     },
     {
       header: "Created At",
@@ -61,17 +93,16 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[]}) => {
       footer: "Created At",
       cell: (item) => {
         const createdAt = item.row.original.createdAt;
-        const formattedDate = moment(createdAt).format('YYYY-MM-DD');
-        const formattedTime = moment(createdAt).format('HH:mm');
-    
+        const formattedDate = moment(createdAt).format("MMM D, YYYY");
+        const formattedTime = moment(createdAt).format("h:mm A");
         return (
-          <span>
-            <strong>Date:</strong> {formattedDate} <br />
-            <strong>Time:</strong> {formattedTime}
+          <span className="flex flex-col">
+            <span style={{ fontWeight: "bold" }}>Date : {formattedDate}</span>{" "}
+            <span style={{ fontStyle: "italic" }}>TIme : {formattedTime}</span>
           </span>
         );
-      }
-    },    
+      },
+    },
     {
       header: "Options",
       footer: "Options",
@@ -129,7 +160,7 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[]}) => {
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900"
+                    className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900 text-center"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>

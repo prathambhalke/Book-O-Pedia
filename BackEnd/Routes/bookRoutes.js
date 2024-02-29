@@ -20,11 +20,12 @@ router.get("/", async (req, res) => {
 // POST a new book
 router.post("/", async (req, res) => {
     try {
-        const { title, author, publish } = req.body;
-        if (!title || !author || !publish) {
+        const { title, author, publish, referenceLink, createdAt } = req.body;
+        if (!title || !author || !publish || !referenceLink || !createdAt) {
             return res.status(400).json({ message: "Please provide all the fields" });
         }
-        const newBook = await book.create({ title, author, publish });
+        // Assuming your `book` model is defined and imported correctly
+        const newBook = await book.create({ title, author, publish, referenceLink, createdAt });
         return res.status(201).json(newBook);
     } catch (err) {
         console.error(err.message);

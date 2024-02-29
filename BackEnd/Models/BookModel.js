@@ -13,6 +13,14 @@ const bookSchema = mongoose.Schema(
         publish : {
             type : String,
             required : true
+        },
+        referenceLink : {
+            type : String,
+            required : true
+        },
+        createdAt : {
+            type : String,
+            required : true
         }
     },
     {

@@ -3,16 +3,34 @@ import { useState } from "react";
 import { IoArrowBackCircle } from "../Constants";
 import { toast } from "react-toastify";
 
-const CreateBook : React.FC<{ setShowCreateForm: any; setData: any }>  = ({ setShowCreateForm, setData }) => {
+const CreateBook: React.FC<{ setShowCreateForm: any; setData: any }> = ({
+  setShowCreateForm,
+  setData,
+}) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publish, setPublish] = useState("");
+  const [createdAt, setCreatedAt] = useState("");
+  const [referenceLink, setReferenceLink] = useState("");
 
-  const handleSubmit : React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    const data = { title, author, publish };
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString();
+    setCreatedAt(formattedDate);
+    const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+    if (!urlPattern.test(referenceLink)) {
+      setReferenceLink("");
+    }
+    const data = {
+      title,
+      author,
+      publish,
+      referenceLink,
+      createdAt: formattedDate,
+    };
     axios
-      .post("https://book-o-pedia.vercel.app/books", data)
+      .post("http://localhost:2000/books", data)
       .then((response) => {
         setData((prevBooks: any) => [...prevBooks, response.data]);
         setShowCreateForm(false);
@@ -84,7 +102,23 @@ const CreateBook : React.FC<{ setShowCreateForm: any; setData: any }>  = ({ setS
             required
           />
         </div>
-        
+        <div className="mb-4">
+          <label
+            htmlFor="refLink"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Reference Link:
+          </label>
+          <input
+            type="text"
+            id="refLink"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Enter reference Link"
+            value={referenceLink}
+            onChange={(e) => setReferenceLink(e.target.value)}
+            required
+          />
+        </div>
         <div className="flex justify-center items-center">
           <button
             type="submit"
