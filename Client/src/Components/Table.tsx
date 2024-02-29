@@ -42,7 +42,7 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[] }) => {
       cell: (item) => {
         const rowIndex = item.cell.row.index;
         const count = rowIndex + 1;
-        return <span>{count}</span>;
+        return <span className="font-bold">{count}</span>;
       },
     },
     {
@@ -65,21 +65,16 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[] }) => {
       footer: "Reference Link",
       cell: (item) => {
         const referenceLink = item.row.original.referenceLink;
-
         const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
-        // if (!urlPattern.test(referenceLink)) {
-        //   toast.error("Please enter a valid URL for the reference link!");
-        //   return;
-        // }
         return (
-          <div>
+          <div className="flex items-center justify-center">
             {
               !urlPattern.test(referenceLink) ? (
-                <CgUnavailable className="text-red-600 text-2xl cursor-not-allowed" title={"this book has not available the reference Link!"}/>
+                <CgUnavailable className="text-red-600 text-2xl cursor-not-allowed hover:scale-110 transition-all duration-100" title={"this book has not available the reference Link!"} />
               ) : (
                 <a href={referenceLink} target="_blank" rel="noopener noreferrer" title={referenceLink}>
-                <GoCrossReference className="text-blue-400 text-xl text-center" />
-              </a>
+                  <GoCrossReference className="text-blue-400 text-xl text-center hover:scale-110 transition-all duration-100" />
+                </a>
               )
             }
           </div>
@@ -96,7 +91,7 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[] }) => {
         const formattedTime = moment(createdAt).format("h:mm A");
         return (
           <span className="flex flex-col">
-            <span style={{ fontWeight: "bold" }}>Date : {formattedDate}</span>{" "}
+            <span className="font-bold">Date : {formattedDate}</span>{" "}
             <span style={{ fontStyle: "italic" }}>TIme : {formattedTime}</span>
           </span>
         );
@@ -108,7 +103,7 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[] }) => {
       cell: (item) => {
         const uId: string = item.row.original._id;
         return (
-          <div className="flex gap-5 text-2xl">
+          <div className="flex gap-5 text-2xl items-center justify-center">
             <button onClick={() => handleClicks(uId, "Info")}>
               <BsInfoSquareFill className="text-blue-600 hover:scale-110 transition-all duration-100" />
             </button>
@@ -140,7 +135,7 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[] }) => {
               {headergroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="px-6 py-3 bg-purple-700 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider"
+                  className="px-6 py-3 bg-purple-700 text-xs leading-4 font-medium text-white uppercase tracking-wider"
                 >
                   {flexRender(
                     header.column.columnDef.header,
@@ -159,7 +154,7 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[] }) => {
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900 text-center"
+                    className="px-6 py-4 text-center whitespace-no-wrap text-sm leading-5 text-gray-900"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
