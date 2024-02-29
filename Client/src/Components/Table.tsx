@@ -18,7 +18,6 @@ import {
   MdDelete,
 } from "../Constants";
 import moment from "moment";
-import { toast } from "react-toastify";
 
 const Table = ({ Tdata }: { Tdata: bookDataArrType[] }) => {
   const [showEditForm, setShowEditForm] = useState(false);
