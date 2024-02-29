@@ -124,7 +124,7 @@ const Table = ({ Tdata }: { Tdata: bookDataArrType[] }) => {
     },
   ];
 
-  const table = useReactTable<columnsData>({
+  const table = useReactTable<any>({
     data: Tdata.reverse(),
     columns: column,
     getCoreRowModel: getCoreRowModel(),

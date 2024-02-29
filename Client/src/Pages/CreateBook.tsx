@@ -10,14 +10,14 @@ const CreateBook: React.FC<{ setShowCreateForm: any; setData: any }> = ({
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publish, setPublish] = useState("");
-  const [createdAt, setCreatedAt] = useState("");
+  // const [createdAt, setCreatedAt] = useState("");
   const [referenceLink, setReferenceLink] = useState("");
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString();
-    setCreatedAt(formattedDate);
+    // setCreatedAt(formattedDate);
     const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
     if (!urlPattern.test(referenceLink)) {
       setReferenceLink("");
