@@ -4,7 +4,7 @@ import { IoArrowBackCircle } from "../Constants";
 
 const ShowBook = ({ setShowInfoForm, editId }: any) => {
   const [book, setBook] = useState<any>({});
-
+  const [isRef, setIsRef] = useState(false);
   useEffect(() => {
     axios
       .get(`https://book-o-pedia.vercel.app/books/${editId}`)
@@ -12,10 +12,15 @@ const ShowBook = ({ setShowInfoForm, editId }: any) => {
         setBook(res.data);
       })
       .catch((err) => console.log(err));
+      checkUrlPattern()
   }, []);
 
   const goBack = () => setShowInfoForm(false);
-
+  console.log(book)
+  const checkUrlPattern = () => {
+    const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+    urlPattern.test(book.referenceLink) ? setIsRef(true) : setIsRef(false)
+  }
   return (
     <div className="max-w-md mx-auto p-8 bg-white shadow-md rounded-md overflow-hidden absolute w-screen z-10 border border-purple-400">
       <button onClick={goBack} className="absolute top-4 left-4">
@@ -48,6 +53,14 @@ const ShowBook = ({ setShowInfoForm, editId }: any) => {
           </div>
           <div className="w-2/3">
             <p className="text-lg font-bold text-gray-900">{book.publish}</p>
+          </div>
+        </div>
+        <div className="flex items-center mt-4">
+          <div className="w-1/3">
+            <label className="block text-gray-700 text-lg font-bold">Reference Link:</label>
+          </div>
+          <div className="w-2/3">
+            <p className="text-lg font-bold text-gray-900">{isRef ? book.referenceLink : "Not Available"}</p>
           </div>
         </div>
       </div>
